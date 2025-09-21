@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages.js';
+	import { mode } from 'mode-watcher';
 
 	let selectedCalculation = $state('diameter');
 
@@ -79,15 +80,7 @@
 			</div>
 			<div class="field">
 				<label for="angle">{m.angle()} (°)</label>
-				<input
-					type="number"
-					id="angle"
-					name="angle"
-					min={0}
-					max={360}
-					placeholder="90"
-					required
-				/>
+				<input type="number" id="angle" name="angle" min={0} max={360} placeholder="90" required />
 			</div>
 		{:else if selectedCalculation === 'height'}
 			<div class="field">
@@ -126,98 +119,103 @@
 
 		<div>
 			<h2>{m.visual_representation()}</h2>
-			<div>
-				<svg
-					id="cercle-svg"
-					width="100%"
-					height="300"
-					viewBox="0 0 300 300"
-					xmlns="http://www.w3.org/2000/svg"
-					style="max-width: 100%; display: block;"
-				>
-					{#if radius > 0}
-						{@const svgSize = 300}
-						{@const scale = svgSize / 2 / (radius * 1.2)}
-						{@const centerX = svgSize / 2}
-						{@const centerY = svgSize / 2}
-						{@const angleRad = (angle * Math.PI) / 180}
-						{@const endX = centerX + radius * scale * Math.cos(angleRad - Math.PI / 2)}
-						{@const endY = centerY + radius * scale * Math.sin(angleRad - Math.PI / 2)}
-						<!-- Reference circle -->
-						<circle
-							cx={centerX}
-							cy={centerY}
-							r={radius * scale}
-							stroke="#ccc"
-							stroke-width="1"
-							fill="none"
-						/>
-						<!-- First radius -->
-						<line
-							x1={centerX}
-							y1={centerY}
-							x2={centerX}
-							y2={centerY - radius * scale}
-							stroke="black"
-							stroke-width="1"
-						/>
-						<!-- Second radius -->
-						<line x1={centerX} y1={centerY} x2={endX} y2={endY} stroke="black" stroke-width="1" />
-						<!-- Angle label -->
-						<text x={centerX + 10} y={centerY - 10} font-size="14" fill="black">
-							{angle.toFixed(2)}°
-						</text>
-						<!-- Chord -->
-						<line
-							x1={centerX}
-							y1={centerY - radius * scale}
-							x2={endX}
-							y2={endY}
-							stroke="red"
-							stroke-width="2"
-						/>
-						<!-- Chord length label -->
-						<text
-							x={centerX + 5}
-							y={(centerY - radius * scale + endY) / 2}
-							font-size="14"
-							fill="red"
-						>
-							{chordLength.toFixed(2)} mm
-						</text>
-						<!-- Arc -->
-						{@const arcStartX = centerX}
-						{@const arcStartY = centerY - radius * scale}
-						<path
-							d={`M ${arcStartX} ${arcStartY} A ${radius * scale} ${radius * scale} 0 ${angle > 180 ? 1 : 0} 1 ${endX} ${endY}`}
-							stroke="blue"
-							stroke-width="2"
-							fill="none"
-						/>
-						<!-- Arc length label -->
-						<text
-							x={(centerX + endX) / 2}
-							y={(centerY - radius * scale + endY) / 2 + 20}
-							font-size="14"
-							fill="blue"
-						>
-							{arcLength.toFixed(2)} mm
-						</text>
-					{/if}
-				</svg>
-			</div>
+			<svg
+				id="cercle-svg"
+				width="100%"
+				height="300"
+				viewBox="0 0 300 300"
+				xmlns="http://www.w3.org/2000/svg"
+				style="max-width: 100%; display: block;"
+			>
+				{#if radius > 0}
+					{@const svgSize = 300}
+					{@const scale = svgSize / 2 / (radius * 1.2)}
+					{@const centerX = svgSize / 2}
+					{@const centerY = svgSize / 2}
+					{@const angleRad = (angle * Math.PI) / 180}
+					{@const endX = centerX + radius * scale * Math.cos(angleRad - Math.PI / 2)}
+					{@const endY = centerY + radius * scale * Math.sin(angleRad - Math.PI / 2)}
+					<!-- Reference circle -->
+					<circle
+						cx={centerX}
+						cy={centerY}
+						r={radius * scale}
+						stroke={mode.current === 'light' ? '#aaa' : '#555'}
+						stroke-width="1"
+						fill="none"
+					/>
+					<!-- First radius -->
+					<line
+						x1={centerX}
+						y1={centerY}
+						x2={centerX}
+						y2={centerY - radius * scale}
+						stroke={mode.current === 'light' ? 'black' : 'white'}
+						stroke-width="1"
+					/>
+					<!-- Second radius -->
+					<line
+						x1={centerX}
+						y1={centerY}
+						x2={endX}
+						y2={endY}
+						stroke={mode.current === 'light' ? 'black' : 'white'}
+						stroke-width="1"
+					/>
+					<!-- Angle label -->
+					<text
+						x={centerX + 10}
+						y={centerY - 10}
+						font-size="14"
+						fill={mode.current === 'light' ? 'black' : 'white'}
+					>
+						{angle.toFixed(2)}°
+					</text>
+					<!-- Chord -->
+					<line
+						x1={centerX}
+						y1={centerY - radius * scale}
+						x2={endX}
+						y2={endY}
+						stroke="red"
+						stroke-width="2"
+					/>
+					<!-- Chord length label -->
+					<text x={centerX + 5} y={(centerY - radius * scale + endY) / 2} font-size="14" fill="red">
+						{chordLength.toFixed(2)} mm
+					</text>
+					<!-- Arc -->
+					{@const arcStartX = centerX}
+					{@const arcStartY = centerY - radius * scale}
+					<path
+						d={`M ${arcStartX} ${arcStartY} A ${radius * scale} ${radius * scale} 0 ${angle > 180 ? 1 : 0} 1 ${endX} ${endY}`}
+						stroke="blue"
+						stroke-width="2"
+						fill="none"
+					/>
+					<!-- Arc length label -->
+					<text
+						x={(centerX + endX) / 2}
+						y={(centerY - radius * scale + endY) / 2 + 20}
+						font-size="14"
+						fill="blue"
+					>
+						{arcLength.toFixed(2)} mm
+					</text>
+				{/if}
+			</svg>
 		</div>
 	{/if}
 </main>
 
 <style lang="postcss">
-	@reference "tailwindcss";
+	@reference "../app.css";
 
 	main {
 		@apply mx-auto flex w-full max-w-2xl flex-col gap-8 p-8;
 
 		form {
-			@apply flex flex-col items-center border border-gray-300 p-2;
+			@apply flex flex-col items-center border bg-card p-2;
 
 			.field {
 				@apply mb-4 flex w-full flex-col;
@@ -236,7 +234,7 @@
 
 			select,
 			input {
-				@apply rounded border border-gray-300 p-2;
+				@apply rounded border p-2;
 			}
 
 			button {
@@ -250,11 +248,11 @@
 			}
 
 			table {
-				@apply w-full border-collapse;
+				@apply w-full border-collapse bg-card;
 
 				th,
 				td {
-					@apply border border-gray-300 p-2;
+					@apply border p-2;
 				}
 
 				th {
@@ -262,12 +260,12 @@
 				}
 
 				th {
-					@apply bg-gray-200;
+					@apply bg-gray-200 dark:bg-gray-700;
 				}
 			}
 
-			#cercle-svg {
-				@apply border border-gray-300;
+			svg {
+				@apply border bg-card;
 			}
 		}
 	}
