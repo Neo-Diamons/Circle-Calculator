@@ -1,0 +1,22 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"new_version_available": "A new version of the application is available. Please refresh the page.",
+	"title": "Circle Calculations with Visual",
+	"select_calculation": "Choose a calculation",
+	"calculation_options": {
+		"diameter": "Diameter and Angle",
+		"height": "Height and Chord"
+	},
+	"diameter": "Diameter",
+	"angle": "Angle",
+	"height": "Height (sagitta)",
+	"chord": "Chord length",
+	"calculate": "Calculate",
+	"results": "Results",
+	"measure": "Measure",
+	"value": "Value",
+	"radius": "Radius",
+	"arc_length": "Arc Length",
+	"chord_length": "Chord Length",
+	"visual_representation": "Visual Representation"
+}

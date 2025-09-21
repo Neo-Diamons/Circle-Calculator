@@ -1,0 +1,22 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"new_version_available": "Une nouvelle version de l'application est disponible. Veuillez actualiser la page.",
+	"title": "Calculs de Cercle avec Visuel",
+	"select_calculation": "Choisissez un calcul",
+	"calculation_options": {
+		"diameter": "Diamètre et Angle",
+		"height": "Hauteur et Corde"
+	},
+	"diameter": "Diamètre",
+	"angle": "Angle",
+	"height": "Hauteur (flèche)",
+	"chord": "Longueur de la corde",
+	"calculate": "Calculer",
+	"results": "Résultats",
+	"measure": "Mesure",
+	"value": "Valeur",
+	"radius": "Rayon",
+	"arc_length": "Longueur de l'arc",
+	"chord_length": "Longueur de la corde",
+	"visual_representation": "Représentation visuelle"
+}

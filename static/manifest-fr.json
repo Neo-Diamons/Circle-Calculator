@@ -1,0 +1,26 @@
+{
+	"name": "Calculs de Cercle avec Visuel",
+	"short_name": "Calculateur de Cercle",
+	"description": "Un outil pour calculer les propriétés d'un arc de cercle.",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#ffffff",
+	"theme_color": "#2b7fff",
+	"icons": [
+		{
+			"src": "pwa-64x64.png",
+			"type": "image/png",
+			"sizes": "64x64"
+		},
+		{
+			"src": "pwa-192x192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		},
+		{
+			"src": "pwa-512x512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		}
+	]
+}
