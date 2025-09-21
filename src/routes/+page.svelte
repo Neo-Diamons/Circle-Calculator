@@ -63,49 +63,45 @@
 </script>
 
 <main>
-	<div>
-		<h1>{m.title()}</h1>
+	<form {onsubmit}>
+		<div class="field">
+			<label for="calcul">{m.select_calculation()}</label>
+			<select id="calcul" name="calcul" bind:value={selectedCalculation}>
+				<option value="diameter">{m['calculation_options.diameter']()}</option>
+				<option value="height">{m['calculation_options.height']()}</option>
+			</select>
+		</div>
 
-		<form {onsubmit}>
+		{#if selectedCalculation === 'diameter'}
 			<div class="field">
-				<label for="calcul">{m.select_calculation()}</label>
-				<select id="calcul" name="calcul" bind:value={selectedCalculation}>
-					<option value="diameter">{m['calculation_options.diameter']()}</option>
-					<option value="height">{m['calculation_options.height']()}</option>
-				</select>
+				<label for="diameter">{m.diameter()} (mm)</label>
+				<input type="number" id="diameter" name="diameter" min={0} placeholder="300" required />
 			</div>
+			<div class="field">
+				<label for="angle">{m.angle()} (°)</label>
+				<input
+					type="number"
+					id="angle"
+					name="angle"
+					min={0}
+					max={360}
+					placeholder="90"
+					required
+				/>
+			</div>
+		{:else if selectedCalculation === 'height'}
+			<div class="field">
+				<label for="height">{m.height()} (mm)</label>
+				<input type="number" id="height" name="height" min={0} placeholder="50" required />
+			</div>
+			<div class="field">
+				<label for="chord">{m.chord()} (mm)</label>
+				<input type="number" id="chord" name="chord" min={0} placeholder="200" required />
+			</div>
+		{/if}
 
-			{#if selectedCalculation === 'diameter'}
-				<div class="field">
-					<label for="diameter">{m.diameter()} (mm)</label>
-					<input type="number" id="diameter" name="diameter" min={0} placeholder="300" required />
-				</div>
-				<div class="field">
-					<label for="angle">{m.angle()} (°)</label>
-					<input
-						type="number"
-						id="angle"
-						name="angle"
-						min={0}
-						max={360}
-						placeholder="90"
-						required
-					/>
-				</div>
-			{:else if selectedCalculation === 'height'}
-				<div class="field">
-					<label for="height">{m.height()} (mm)</label>
-					<input type="number" id="height" name="height" min={0} placeholder="50" required />
-				</div>
-				<div class="field">
-					<label for="chord">{m.chord()} (mm)</label>
-					<input type="number" id="chord" name="chord" min={0} placeholder="200" required />
-				</div>
-			{/if}
-
-			<button type="submit">{m.calculate()}</button>
-		</form>
-	</div>
+		<button type="submit">{m.calculate()}</button>
+	</form>
 
 	{#if asComputed}
 		<div>
@@ -219,10 +215,6 @@
 
 	main {
 		@apply mx-auto flex w-full max-w-2xl flex-col gap-8 p-8;
-
-		h1 {
-			@apply mb-4 text-2xl font-bold;
-		}
 
 		form {
 			@apply flex flex-col items-center border border-gray-300 p-2;
